@@ -19,6 +19,12 @@ public class GestureManager : MonoBehaviour
     [SerializeField]
     Radios radios;
 
+    [SerializeField]
+    Hammer hammer;
+
+    bool HammerLeft = false;
+    bool HammerRight = false;
+
     // [SerializeField]
     // Idle idle;
     // Hammer hammer;
@@ -60,7 +66,12 @@ public class GestureManager : MonoBehaviour
                 joystick.SetInitRotate();
             }
             else if (currentGesture == "radios") radios.SetVisible(true);
-            else if (currentGesture == "bomb") bomb.SetVisible(true);
+            else if (currentGesture == "bomb")
+            {
+                if (HammerRight) SetHammerLeft(true);
+                else bomb.SetVisible(true);
+            }
+            else if (currentGesture == "hammer") hammer.SetVisible(true);
         }
 
         if (str == "idle")
@@ -74,6 +85,7 @@ public class GestureManager : MonoBehaviour
             }
             else if (currentGesture == "radios") radios.SetVisible(false);
             else if (currentGesture == "bomb") bomb.SetVisible(false);
+            else if (currentGesture == "hammer") hammer.SetVisible(false);
             currentGesture = "idle";
         }
     }
@@ -81,6 +93,22 @@ public class GestureManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    public void SetHammerLeft(bool temp)
+    {
+        HammerLeft = temp;
+        isHammerEnabled();
+    }
+
+    public void SetHammerRight(bool temp)
+    {
+        HammerRight = temp;
+        isHammerEnabled();
+    }
+
+    void isHammerEnabled()
+    {
+        if (HammerLeft && HammerRight && currentGesture == "idle") currentGesture = "hammer";
     }
 }

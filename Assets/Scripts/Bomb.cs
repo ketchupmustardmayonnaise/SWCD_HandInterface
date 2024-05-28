@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Bomb : Gesture
 {
+    [SerializeField]
+    GameObject ParticleFXExplosion;
+
+    [SerializeField]
+    GameObject explosionPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +20,19 @@ public class Bomb : Gesture
     void Update()
     {
         
+    }
+
+    public void Burst()
+    {
+        if (gameObject.activeSelf == true)
+        {
+            gameObject.SetActive(false);
+            Instantiate(ParticleFXExplosion, explosionPosition.transform.position, gameObject.transform.rotation);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "floor") Burst();
     }
 }
