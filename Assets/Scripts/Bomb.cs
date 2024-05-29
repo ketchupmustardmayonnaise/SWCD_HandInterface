@@ -5,10 +5,13 @@ using UnityEngine;
 public class Bomb : Gesture
 {
     [SerializeField]
-    GameObject ParticleFXExplosion;
+    ThrowableHand hand;
 
     [SerializeField]
-    GameObject explosionPosition;
+    InstantiateBomb bombInst;
+
+    [SerializeField]
+    float velocityThreshold = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -22,17 +25,18 @@ public class Bomb : Gesture
         
     }
 
-    public void Burst()
+    public void Throw()
     {
         if (gameObject.activeSelf == true)
         {
-            gameObject.SetActive(false);
-            Instantiate(ParticleFXExplosion, explosionPosition.transform.position, gameObject.transform.rotation);
-        }
-    }
+            if (hand.GetVelocity().magnitude > velocityThreshold)
+            {
+                Instantiate(bombInst, gameObject.transform);
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "floor") Burst();
+                bombInst.GetComponent<Rigidbody>().useGravity = true;
+                bombInst.GetComponent<Rigidbody>().isKinematic = true;
+                bombInst.GetComponent<Rigidbody>().AddForce(hand.GetVelocity());
+            }
+        }
     }
 }
