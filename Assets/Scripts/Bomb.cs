@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Bomb : Gesture
@@ -13,6 +14,12 @@ public class Bomb : Gesture
     [SerializeField]
     float velocityThreshold = 1.0f;
 
+    [SerializeField]
+    float bombTime = 5.0f;
+
+    [SerializeField]
+    TMP_Text text;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +29,7 @@ public class Bomb : Gesture
     // Update is called once per frame
     void Update()
     {
-        
+        setText();
     }
 
     public void Throw()
@@ -38,5 +45,10 @@ public class Bomb : Gesture
                 bombInst.GetComponent<Rigidbody>().AddForce(hand.GetVelocity());
             }
         }
+    }
+
+    void setText()
+    {
+        text.text = "Time: " + bombTime.ToString();
     }
 }

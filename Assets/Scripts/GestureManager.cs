@@ -62,13 +62,17 @@ public class GestureManager : MonoBehaviour
             else if (currentGesture == "gun") gun.SetVisible(true);
             else if (currentGesture == "joystick")
             {
-                joystick.SetVisible(true);
-                joystick.SetInitRotate();
+                if (HammerRight) SetCurrentGesture("hammer");
+                else
+                {
+                    joystick.SetVisible(true);
+                    joystick.SetInitRotate();
+                }
             }
             else if (currentGesture == "radios") radios.SetVisible(true);
             else if (currentGesture == "bomb")
             {
-                if (HammerRight) SetHammerLeft(true);
+                if (HammerRight) SetCurrentGesture("hammer");
                 else bomb.SetVisible(true);
             }
             else if (currentGesture == "hammer") hammer.SetVisible(true);
@@ -93,6 +97,7 @@ public class GestureManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(currentGesture);
     }
 
     public void SetHammerLeft(bool temp)
@@ -109,6 +114,10 @@ public class GestureManager : MonoBehaviour
 
     void isHammerEnabled()
     {
-        if (HammerLeft && HammerRight && currentGesture == "idle") currentGesture = "hammer";
+        if (HammerLeft && HammerRight && (currentGesture == "idle" || currentGesture == "joystick" || currentGesture == "bomb"))
+        {
+            currentGesture = "hammer";
+            hammer.SetVisible(true);
+        }
     }
 }
