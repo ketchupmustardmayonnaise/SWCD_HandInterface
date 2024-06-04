@@ -220,10 +220,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1328409455}
         m_TargetAssemblyTypeName: GestureManager, Assembly-CSharp
         m_MethodName: SetCurrentGesture
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 2828778440566910996}
+          m_ObjectArgumentAssemblyTypeName: Gesture, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: radios
@@ -559,6 +559,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4913291532809462, guid: c6a74181d4000004887343fb87b3c53a, type: 3}
   m_PrefabInstance: {fileID: 1635986395}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &163890204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 163890205}
+  - component: {fileID: 163890206}
+  m_Layer: 0
+  m_Name: Idle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &163890205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163890204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 756869720}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &163890206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163890204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0349f05b7d1b7243ad499bdc1efd5c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  onRecognized:
+    m_PersistentCalls:
+      m_Calls: []
+  gestureObject: {fileID: 163890204}
 --- !u!1 &277572884
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,10 +664,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1328409455}
         m_TargetAssemblyTypeName: GestureManager, Assembly-CSharp
         m_MethodName: SetCurrentGesture
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 958707883}
+          m_ObjectArgumentAssemblyTypeName: Gesture, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: gun
@@ -1038,15 +1087,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7192818547691462808, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 766363979}
+    - targetCorrespondingSourceObject: {fileID: 7192818547691462808, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 163890205}
+    - targetCorrespondingSourceObject: {fileID: 7192818547691462808, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 525416068}
     - targetCorrespondingSourceObject: {fileID: 7192818547691459740, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 455329794}
     - targetCorrespondingSourceObject: {fileID: 7192818547691459740, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 700705176}
-    - targetCorrespondingSourceObject: {fileID: 3282992646748819689, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 525416068}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7192818547691322732, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
       insertIndex: -1
@@ -1058,11 +1110,6 @@ PrefabInstance:
 --- !u!4 &464701216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5550776016039436608, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
-  m_PrefabInstance: {fileID: 464701215}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &464701217 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3282992646748819689, guid: f39a9d103c4129b42a53567f6cd8356a, type: 3}
   m_PrefabInstance: {fileID: 464701215}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &486665668
@@ -1121,10 +1168,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1328409455}
         m_TargetAssemblyTypeName: GestureManager, Assembly-CSharp
         m_MethodName: SetCurrentGesture
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 163890206}
+          m_ObjectArgumentAssemblyTypeName: Gesture, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: idle
@@ -1233,11 +1280,11 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 464701217}
+    m_TransformParent: {fileID: 756869720}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1253,7 +1300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
       propertyPath: m_LocalRotation.y
@@ -1288,13 +1335,38 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1104073500}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 525416070}
   m_SourcePrefab: {fileID: 100100000, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
 --- !u!4 &525416068 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
   m_PrefabInstance: {fileID: 525416067}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &525416069 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: fd70f72980ba2da4e857c7a8b1aa3770, type: 3}
+  m_PrefabInstance: {fileID: 525416067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &525416070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525416069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cf155c6b31a494a9f60dc5067826e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 
+  onRecognized:
+    m_PersistentCalls:
+      m_Calls: []
+  gestureObject: {fileID: 525416069}
 --- !u!1 &536754669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1351,10 +1423,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1328409455}
         m_TargetAssemblyTypeName: GestureManager, Assembly-CSharp
         m_MethodName: SetCurrentGesture
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 7782567546847882155}
+          m_ObjectArgumentAssemblyTypeName: Gesture, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: bomb
@@ -2644,10 +2716,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1328409455}
         m_TargetAssemblyTypeName: GestureManager, Assembly-CSharp
         m_MethodName: SetCurrentGesture
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 5945509509730587199}
+          m_ObjectArgumentAssemblyTypeName: Gesture, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: bow
@@ -2769,6 +2841,7 @@ MonoBehaviour:
   bomb: {fileID: 7782567546847882155}
   radios: {fileID: 2828778440566910996}
   hammer: {fileID: 1483009621}
+  idle: {fileID: 163890206}
 --- !u!4 &1328409456
 Transform:
   m_ObjectHideFlags: 0
@@ -3134,10 +3207,10 @@ MonoBehaviour:
       - m_Target: {fileID: 1328409455}
         m_TargetAssemblyTypeName: GestureManager, Assembly-CSharp
         m_MethodName: SetCurrentGesture
-        m_Mode: 5
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1760821486}
+          m_ObjectArgumentAssemblyTypeName: Gesture, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: joystick

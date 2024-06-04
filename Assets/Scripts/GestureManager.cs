@@ -22,6 +22,9 @@ public class GestureManager : MonoBehaviour
     [SerializeField]
     Hammer hammer;
 
+    [SerializeField]
+    Gesture idle;
+
     bool HammerLeft = false;
     bool HammerRight = false;
 
@@ -31,66 +34,35 @@ public class GestureManager : MonoBehaviour
     // Radios radios;
     // Bumb bumb;
 
-    string currentGesture;
+    Gesture currentGesture;
 
     List<Gesture> gestures;
 
-    bool isGesture;
     bool setTimer;
     float time;
 
     // Start is called before the first frame update
     void Start()
     {
-        isGesture = false;
-        gestures = new List<Gesture>();
-        currentGesture = "idle";
+        currentGesture = idle;
         time = 0;
-
-        gestures.Add(bow);
-        gestures.Add(gun);
-        gestures.Add(joystick);
     }
 
-    public void SetCurrentGesture(string str)
+    public void SetCurrentGesture(Gesture ges)
     {
-        Debug.Log(str);
-        if (currentGesture == "idle")
+        
+        // 이전 제스처가 idle이고 지금 다른 제스처를 취한다면 -> 해당 제스처 활성화
+        if (currentGesture == idle)
         {
-            currentGesture = str;
-            if (currentGesture == "bow") bow.SetVisible(true);
-            else if (currentGesture == "gun") gun.SetVisible(true);
-            else if (currentGesture == "joystick")
-            {
-                if (HammerRight) SetCurrentGesture("hammer");
-                else
-                {
-                    joystick.SetVisible(true);
-                    joystick.SetInitRotate();
-                }
-            }
-            else if (currentGesture == "radios") radios.SetVisible(true);
-            else if (currentGesture == "bomb")
-            {
-                if (HammerRight) SetCurrentGesture("hammer");
-                else bomb.SetVisible(true);
-            }
-            else if (currentGesture == "hammer") hammer.SetVisible(true);
+            currentGesture = ges;
+            EnableGesture(ges, true);
         }
 
-        if (str == "idle")
+        // 취한 제스처가 idle일 때 -> 모두 비활성화
+        if (ges == idle)
         {
-            if (currentGesture == "bow") bow.SetVisible(false);
-            else if (currentGesture == "gun") gun.SetVisible(false);
-            else if (currentGesture == "joystick")
-            {
-                joystick.SetVisible(false);
-                joystick.isActivate = false;
-            }
-            else if (currentGesture == "radios") radios.SetVisible(false);
-            else if (currentGesture == "bomb") bomb.SetVisible(false);
-            else if (currentGesture == "hammer") hammer.SetVisible(false);
-            currentGesture = "idle";
+            EnableGesture(currentGesture, false);
+            currentGesture = idle;
         }
     }
 
@@ -98,6 +70,11 @@ public class GestureManager : MonoBehaviour
     void Update()
     {
         //Debug.Log(currentGesture);
+    }
+
+    public void EnableGesture(Gesture ges, bool isEnabled)
+    {
+        ges.SetVisible(isEnabled);
     }
 
     public void SetHammerLeft(bool temp)
@@ -114,9 +91,9 @@ public class GestureManager : MonoBehaviour
 
     void isHammerEnabled()
     {
-        if (HammerLeft && HammerRight && (currentGesture == "idle" || currentGesture == "joystick" || currentGesture == "bomb"))
+        if (HammerLeft && HammerRight && (currentGesture == idle || currentGesture == joystick || currentGesture == bomb))
         {
-            currentGesture = "hammer";
+            currentGesture = hammer;
             hammer.SetVisible(true);
         }
     }
