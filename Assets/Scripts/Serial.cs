@@ -7,9 +7,14 @@ using Unity.VisualScripting;
 
 public class Serial : MonoBehaviour
 {
+    [SerializeField] GestureManager gesManager;
+    [SerializeField] string port = "COM4";
+    [SerializeField] int baud = 300;
+    [SerializeField] int dataNum = 4;
 
     SerialPort sp;
     bool hexTF = false; //hex 값으로 받을꺼면 true, ascii 값으로 받을꺼면 false;
+    
     int gesture;
     int touchNum;
     float time;
@@ -17,7 +22,7 @@ public class Serial : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Serial_Go("COM4", 300);
+        Serial_Go(port, baud);
 
         time = 0;
         touchNum = 0;
@@ -56,19 +61,22 @@ public class Serial : MonoBehaviour
                 {
                     time = 0;
 
-                    int index = 1;
-                    while (index < tempStr.Length - 1)
+                    int index = 0;
+                    while (index < tempStr.Length)
                     {
-                        int[] datas = new int[4];
+                        int[] datas = new int[dataNum];
                         string nonSplitStr = tempStr[index].ToString();
                         string[] splitStr = nonSplitStr.Split(',');
-                        for (int i = 0; i < 4; i++)
+                        for (int i = 0; i < dataNum; i++)
                         {
                             datas[i] = Int32.Parse(splitStr[i]);
 
                             // 제스처 인식
                             if (i == 0)
                             {
+                                // 직전 제스처랑 지금 제스처랑 다른지 확인
+                                if (gesture != datas[i]) gesManager.SerialGesture(datas[i]);
+
                                 // 아무런 제스처도 인식하지 못한 상태라면
                                 if (gesture == 0 || gesture == -1)
                                 {

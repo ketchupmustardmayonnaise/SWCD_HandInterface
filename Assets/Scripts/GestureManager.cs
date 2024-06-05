@@ -38,25 +38,28 @@ public class GestureManager : MonoBehaviour
 
     List<Gesture> gestures;
 
-    bool setTimer;
-    float time;
+    float serialGestureTime;
+
 
     // Start is called before the first frame update
     void Start()
     {
         currentGesture = idle;
-        time = 0;
+        serialGestureTime = 0;
     }
 
     public void SetCurrentGesture(Gesture ges)
     {
         
-        // 이전 제스처가 idle이고 지금 다른 제스처를 취한다면 -> 해당 제스처 활성화
+        // 이전 제스처가 idle && 지금 다른 제스처를 취한다면 -> 해당 제스처 활성화
         if (currentGesture == idle)
         {
             currentGesture = ges;
             EnableGesture(ges, true);
         }
+
+        // 두 손 제스처
+        // 
 
         // 취한 제스처가 idle일 때 -> 모두 비활성화
         if (ges == idle)
@@ -70,12 +73,28 @@ public class GestureManager : MonoBehaviour
     void Update()
     {
         //Debug.Log(currentGesture);
+        serialGestureTime += Time.deltaTime;
     }
 
     public void EnableGesture(Gesture ges, bool isEnabled)
     {
         ges.SetVisible(isEnabled);
     }
+
+    public void SerialGesture(int ges)
+    {
+        if (ges == 170)
+        {
+            if (currentGesture == gun && serialGestureTime > 5.0f)
+            {
+                gun.Reload();
+                serialGestureTime = 0;
+            }
+        }
+    }
+
+
+    /*****************************/
 
     public void SetHammerLeft(bool temp)
     {

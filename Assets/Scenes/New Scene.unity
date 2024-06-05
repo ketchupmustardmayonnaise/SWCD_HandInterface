@@ -788,6 +788,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b13a676ea30c0cc4ca810bc162e81ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gesManager: {fileID: 1328409455}
+  port: COM5
+  baud: 9600
+  dataNum: 4
 --- !u!4 &306660438
 Transform:
   m_ObjectHideFlags: 0
