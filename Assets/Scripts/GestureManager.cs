@@ -17,13 +17,13 @@ public class GestureManager : MonoBehaviour
     Bomb bomb;
 
     [SerializeField]
-    Radios radios;
-
-    [SerializeField]
     Hammer hammer;
 
     [SerializeField]
     Gesture idle;
+
+    [SerializeField]
+    Telescope telescope;
 
     bool HammerLeft = false;
     bool HammerRight = false;
@@ -88,6 +88,22 @@ public class GestureManager : MonoBehaviour
             if (currentGesture == gun && serialGestureTime > 5.0f)
             {
                 gun.Reload();
+                serialGestureTime = 0;
+            }
+        }
+        else if (ges == 1) // UP
+        {
+            if (currentGesture == bomb)
+            {
+                bomb.setBombTime(true);
+                serialGestureTime = 0;
+            }
+        }
+        else if (ges == 2) // DOWN
+        {
+            if (currentGesture == bomb)
+            {
+                bomb.setBombTime(false);
                 serialGestureTime = 0;
             }
         }

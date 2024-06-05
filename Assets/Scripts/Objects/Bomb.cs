@@ -51,4 +51,10 @@ public class Bomb : Gesture
     {
         text.text = "Time: " + bombTime.ToString();
     }
+
+    public void setBombTime(bool isUp)
+    {
+        if (isUp) bombTime += 1.0f;
+        else bombTime -= 1.0f;
+    }
 }
