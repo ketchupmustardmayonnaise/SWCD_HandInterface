@@ -90,6 +90,11 @@ public class GestureManager : MonoBehaviour
                 gun.Reload();
                 serialGestureTime = 0;
             }
+
+            if (currentGesture == bomb)
+            {
+                bomb.isJumpReady = true;
+            }
         }
         else if (ges == 1) // UP
         {

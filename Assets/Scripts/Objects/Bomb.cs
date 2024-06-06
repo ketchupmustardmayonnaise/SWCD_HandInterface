@@ -20,16 +20,31 @@ public class Bomb : Gesture
     [SerializeField]
     TMP_Text text;
 
+    [SerializeField]
+    LineRenderer lineRenderer;
+
+    [SerializeField]
+    OVRCameraRig player;
+
+    float jumpPower = 4.0f;
+    public bool isJumpReady = false;
+
     // Start is called before the first frame update
     void Start()
     {
         gameObject.SetActive(false);
+        //lineRenderer = gameObject.GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         setText();
+
+        if (gameObject.activeSelf == true && isJumpReady)
+        {
+            PredictTrajectory(transform.position, player.transform.forward * 3f + Vector3.up * jumpPower);
+        }
     }
 
     public void Throw()
@@ -56,5 +71,26 @@ public class Bomb : Gesture
     {
         if (isUp) bombTime += 1.0f;
         else bombTime -= 1.0f;
+    }
+
+    void PredictTrajectory(Vector3 startPos, Vector3 vel)
+    {
+        int step = 60;
+        float deltaTime = Time.fixedDeltaTime;
+        Vector3 gravity = Physics.gravity;
+
+        Vector3 position = startPos;
+        Vector3 velocity = vel;
+
+        List<Vector3> vectorlist = new List<Vector3>();
+        for (int i = 0; i < step; i++)
+        {
+            position += velocity * deltaTime + 0.5f * gravity * deltaTime * deltaTime;
+            velocity += gravity * deltaTime;
+            vectorlist.Add(position);
+
+            //print(position);
+        }
+        lineRenderer.SetPositions(vectorlist.ToArray());
     }
 }

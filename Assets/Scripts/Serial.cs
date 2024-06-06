@@ -13,7 +13,6 @@ public class Serial : MonoBehaviour
     [SerializeField] int dataNum = 4;
 
     SerialPort sp;
-    bool hexTF = false; //hex 값으로 받을꺼면 true, ascii 값으로 받을꺼면 false;
     
     int gesture;
     int touchNum;
