@@ -51,7 +51,7 @@ public class Gun : Gesture
 
     void setText()
     {
-        text.text = "ÀÜ¿© ÃÑ¾Ë °³¼ö: " + bulletNum.ToString();
+        text.text = "Remained bullet: " + bulletNum.ToString();
     }
 
     // Update is called once per frame

@@ -25,6 +25,14 @@ public class GestureManager : MonoBehaviour
     [SerializeField]
     Telescope telescope;
 
+    [SerializeField]
+    Poker poker;
+
+    [SerializeField]
+    Aiming aiming;
+
+    public bool isTouching = false;
+
     bool HammerLeft = false;
     bool HammerRight = false;
 
@@ -74,6 +82,8 @@ public class GestureManager : MonoBehaviour
     {
         //Debug.Log(currentGesture);
         serialGestureTime += Time.deltaTime;
+
+        //if(currentGesture)
     }
 
     public void EnableGesture(Gesture ges, bool isEnabled)
@@ -83,7 +93,7 @@ public class GestureManager : MonoBehaviour
 
     public void SerialGesture(int ges)
     {
-        if (ges == 170)
+        if (ges == 170) // PALM
         {
             if (currentGesture == gun && serialGestureTime > 5.0f)
             {
@@ -94,6 +104,11 @@ public class GestureManager : MonoBehaviour
             if (currentGesture == bomb)
             {
                 bomb.isJumpReady = true;
+            }
+
+            if (currentGesture = bow)
+            {
+                bow.Reload();
             }
         }
         else if (ges == 1) // UP
@@ -110,6 +125,20 @@ public class GestureManager : MonoBehaviour
             {
                 bomb.setBombTime(false);
                 serialGestureTime = 0;
+            }
+        }
+        else if (ges == 3) // LEFT
+        {
+            if (currentGesture == poker)
+            {
+                poker.Select(true);
+            }
+        }
+        else if (ges == 4) // RIGHT
+        {
+            if (currentGesture == poker)
+            {
+                poker.Select(false);
             }
         }
     }

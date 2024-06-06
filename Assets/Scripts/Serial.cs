@@ -101,7 +101,7 @@ public class Serial : MonoBehaviour
         }
 
         time += Time.deltaTime;
-        Debug.Log(gesture + ", " + touchNum);
+        //Debug.Log(gesture + ", " + touchNum);
         if (time > 1.0f)
         {
             gesture = -1;
