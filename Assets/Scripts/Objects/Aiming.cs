@@ -25,7 +25,7 @@ public class Aiming : Gesture
         if (gameObject.activeSelf)
         {
             AimingPoint.gameObject.transform.localPosition = new Vector3((float)((x - 120) * 0.0375),
-                0, (float)((120 - y) * 0.0375));
+                0, (float)((y-120) * 0.0375));
         }
     }
 

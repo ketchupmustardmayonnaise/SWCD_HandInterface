@@ -8,6 +8,7 @@ using Unity.VisualScripting;
 public class Serial : MonoBehaviour
 {
     [SerializeField] GestureManager gesManager;
+    [SerializeField] Aiming aiming;
     [SerializeField] string port = "COM4";
     [SerializeField] int baud = 300;
     [SerializeField] int dataNum = 4;
@@ -88,8 +89,9 @@ public class Serial : MonoBehaviour
                             }
                         }
 
-                        //Debug.Log(datas[0] + "," + datas[1] + "," + datas[2] + "," + datas[3]);
+                        //Debug.Log(datas[2] + "," + datas[3]);
 
+                        aiming.SetPoint(datas[2], datas[3]);
                         datas.Free();
                     }
                 }
@@ -101,7 +103,7 @@ public class Serial : MonoBehaviour
         }
 
         time += Time.deltaTime;
-        //Debug.Log(gesture + ", " + touchNum);
+        Debug.Log(gesture + ", " + touchNum);
         if (time > 1.0f)
         {
             gesture = -1;

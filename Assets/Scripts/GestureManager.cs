@@ -95,10 +95,9 @@ public class GestureManager : MonoBehaviour
     {
         if (ges == 170) // PALM
         {
-            if (currentGesture == gun && serialGestureTime > 5.0f)
+            if (currentGesture == gun)
             {
-                gun.Reload();
-                serialGestureTime = 0;
+                StartCoroutine(gun.Reload());
             }
 
             if (currentGesture == bomb)
