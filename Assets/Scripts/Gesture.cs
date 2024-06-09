@@ -7,8 +7,6 @@ public class Gesture : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    [SerializeField]
-    public string name;
     public UnityEvent onRecognized;
 
     [SerializeField]

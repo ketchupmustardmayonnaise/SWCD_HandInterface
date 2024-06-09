@@ -33,9 +33,6 @@ public class GestureManager : MonoBehaviour
 
     public bool isTouching = false;
 
-    bool HammerLeft = false;
-    bool HammerRight = false;
-
     // [SerializeField]
     // Idle idle;
     // Hammer hammer;
@@ -82,13 +79,22 @@ public class GestureManager : MonoBehaviour
     {
         //Debug.Log(currentGesture);
         serialGestureTime += Time.deltaTime;
-
-        //if(currentGesture)
     }
 
     public void EnableGesture(Gesture ges, bool isEnabled)
     {
         ges.SetVisible(isEnabled);
+    }
+
+    public void SerialTouchRelease()
+    {
+        if (currentGesture == bow) bow.Fire();
+        if (currentGesture == aiming) aiming.Fire();
+    }
+
+    public void SerialXY(int x, int y)
+    {
+        if (currentGesture == aiming) aiming.SetPoint(x, y);
     }
 
     public void SerialGesture(int ges)
@@ -103,11 +109,6 @@ public class GestureManager : MonoBehaviour
             if (currentGesture == bomb)
             {
                 bomb.isJumpReady = true;
-            }
-
-            if (currentGesture = bow)
-            {
-                bow.Reload();
             }
         }
         else if (ges == 1) // UP
@@ -132,6 +133,10 @@ public class GestureManager : MonoBehaviour
             {
                 poker.Select(true);
             }
+            if (currentGesture = bow)
+            {
+                bow.Reload();
+            }
         }
         else if (ges == 4) // RIGHT
         {
@@ -139,30 +144,6 @@ public class GestureManager : MonoBehaviour
             {
                 poker.Select(false);
             }
-        }
-    }
-
-
-    /*****************************/
-
-    public void SetHammerLeft(bool temp)
-    {
-        HammerLeft = temp;
-        isHammerEnabled();
-    }
-
-    public void SetHammerRight(bool temp)
-    {
-        HammerRight = temp;
-        isHammerEnabled();
-    }
-
-    void isHammerEnabled()
-    {
-        if (HammerLeft && HammerRight && (currentGesture == idle || currentGesture == joystick || currentGesture == bomb))
-        {
-            currentGesture = hammer;
-            hammer.SetVisible(true);
         }
     }
 }

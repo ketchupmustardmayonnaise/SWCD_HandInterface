@@ -7,7 +7,8 @@ public class Bow : Gesture
     [SerializeField] GameObject reloadPosition;
     [SerializeField] BowArrow arrow;
 
-    bool isArrowRemained = false;
+    BowArrow currentArrow; // 화살 포인터
+    bool isArrowRemained = false; // 지금 화살이 있는가
 
     // Start is called before the first frame update
     void Start()
@@ -23,19 +24,20 @@ public class Bow : Gesture
 
     public void Reload()
     {
-        if (isArrowRemained)
+        if (!isArrowRemained)
         {
-            Instantiate(arrow, reloadPosition.transform.position, reloadPosition.transform.rotation);
+            currentArrow = Instantiate(arrow, reloadPosition.transform.position, reloadPosition.transform.rotation, transform);
             isArrowRemained = true;
         }
     }
 
-    public void Shoot()
+    public void Fire()
     {
-        if (gameObject.activeSelf)
+        if (isArrowRemained)
         {
-            arrow.isReady = true;
+            currentArrow.isReady = true;
             isArrowRemained = false;
+            currentArrow = null;
         }
     }
 }

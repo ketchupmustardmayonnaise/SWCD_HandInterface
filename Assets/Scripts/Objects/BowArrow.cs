@@ -9,12 +9,15 @@ public class BowArrow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        isReady = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isReady) transform.Translate(Vector3.forward * 0.5f);
+        if (isReady)
+        {
+            transform.Translate(Vector3.forward * 0.2f);
+        }
     }
 }

@@ -14,19 +14,24 @@ public class Serial : MonoBehaviour
     [SerializeField] int dataNum = 4;
 
     SerialPort sp;
-    
+
+    bool isTouching = false;
+
     int gesture;
-    int touchNum;
-    float time;
+    int eventFlag;
+    int previousEventFlag;
+
+    int x;
+    int y;
 
     // Start is called before the first frame update
     void Start()
     {
         Serial_Go(port, baud);
 
-        time = 0;
-        touchNum = 0;
-        gesture = -1;
+        previousEventFlag = 0;
+        eventFlag = 0;
+        gesture = 0;
     }
 
     public void Serial_Go(string st0, int num0)
@@ -47,6 +52,8 @@ public class Serial : MonoBehaviour
 
             if (bytes >= 1)
             {
+                isTouching = true;
+
                 byte[] buffer = new byte[bytes];
                 sp.Read(buffer, 0, bytes);
 
@@ -59,8 +66,6 @@ public class Serial : MonoBehaviour
 
                 if (tempStr.Length > 1)
                 {
-                    time = 0;
-
                     int index = 0;
                     while (index < tempStr.Length)
                     {
@@ -71,7 +76,23 @@ public class Serial : MonoBehaviour
                         {
                             datas[i] = Int32.Parse(splitStr[i]);
 
-                            // 제스처 인식
+                            if (i == 0)
+                            {
+                                previousEventFlag = eventFlag;
+                                eventFlag = datas[i];
+                            }
+                            else if (i == 1)
+                            {
+                                if (datas[i] != 0 && gesture == 0)
+                                {
+                                    gesture = datas[i];
+                                    gesManager.SerialGesture(gesture);
+                                }
+                            }
+                            else if (i == 2) x = datas[i];
+                            else if (i == 3) y = datas[i];
+
+                            /*// 제스처 인식
                             if (i == 0)
                             {
                                 // 직전 제스처랑 지금 제스처랑 다른지 확인
@@ -86,7 +107,7 @@ public class Serial : MonoBehaviour
                             else if (i == 1) // touchNum 인식
                             {
                                 touchNum = datas[i];
-                            }
+                            }*/
                         }
 
                         //Debug.Log(datas[2] + "," + datas[3]);
@@ -102,12 +123,20 @@ public class Serial : MonoBehaviour
             //Debug.Log(e.Message);
         }
 
-        time += Time.deltaTime;
-        Debug.Log(gesture + ", " + touchNum);
-        if (time > 1.0f)
+        // 터치 뗌
+        if (eventFlag == 1 && eventFlag != previousEventFlag)
         {
-            gesture = -1;
-            touchNum = 0;
+            gesManager.SerialTouchRelease();
+            isTouching = false;
+            eventFlag = 0;
+            previousEventFlag = 0;
+            gesture = 0;
+            x = 0; y = 0;
         }
+
+        //Debug.Log((isTouching ? "True, " : "False, ") + eventFlag + ", " + gesture + ", " + x + ", " + y);
+
+        // X, Y 값을 GestureManager에게 넘겨 줌
+        gesManager.SerialXY(x, y);
     }
 }

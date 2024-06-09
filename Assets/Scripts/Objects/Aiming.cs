@@ -31,7 +31,13 @@ public class Aiming : Gesture
 
     public void SetPoint(int _x, int _y)
     {
-        x = _x;
-        y = _y;
+        if (gameObject.activeSelf)
+        {
+            x = _x;
+            y = _y;
+        }
     }
+
+    public void Fire()
+    { }
 }
