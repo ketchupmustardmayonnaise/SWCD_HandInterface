@@ -7,6 +7,8 @@ public class Aiming : Gesture
 {
     // Start is called before the first frame update
     [SerializeField] GameObject AimingPoint;
+    [SerializeField] Bullet bullet;
+    [SerializeField] GameObject leftHand;
 
     int x;
     int y;
@@ -15,7 +17,6 @@ public class Aiming : Gesture
     {
         x = 120;
         y = 120;
-
         gameObject.SetActive(false);
     }
 
@@ -24,8 +25,8 @@ public class Aiming : Gesture
     {
         if (gameObject.activeSelf)
         {
-            AimingPoint.gameObject.transform.localPosition = new Vector3((float)((x - 120) * 0.0375),
-                0, (float)((y-120) * 0.0375));
+            AimingPoint.gameObject.transform.localPosition = new Vector3((float)((120 - x) * 0.0375),
+                0, (float)((120 - y) * 0.0375));
         }
     }
 
@@ -39,5 +40,7 @@ public class Aiming : Gesture
     }
 
     public void Fire()
-    { }
+    {
+        Instantiate(bullet, AimingPoint.transform.position, Quaternion.Euler(leftHand.transform.right));
+    }
 }

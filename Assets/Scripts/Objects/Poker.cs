@@ -16,9 +16,11 @@ public class Poker : Gesture
     [SerializeField] float move;
 
     List<GameObject> card;
-    Dictionary<GameObject, Vector3> cardTransform;
+    Dictionary<GameObject, Vector3> cardPositionList;
+    Dictionary<GameObject, Quaternion> cardRotationList;
 
     int cardIndex = 0; // 0~4
+    int cardNum = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -33,24 +35,30 @@ public class Poker : Gesture
         card.Add(card4);
         card.Add(card5);
 
-        cardTransform = new Dictionary<GameObject, Vector3>();
+        cardPositionList = new Dictionary<GameObject, Vector3>();
+        cardRotationList = new Dictionary<GameObject, Quaternion>();
         Vector3 tempPosition;
         Quaternion tempQuat;
         
         card1.gameObject.transform.GetLocalPositionAndRotation(out tempPosition, out tempQuat);
-        cardTransform.Add(card1, tempPosition);
+        cardPositionList.Add(card1, tempPosition);
+        cardRotationList.Add(card1, tempQuat);
         
         card2.gameObject.transform.GetLocalPositionAndRotation(out tempPosition, out tempQuat);
-        cardTransform.Add(card2, tempPosition);
-        
+        cardPositionList.Add(card2, tempPosition);
+        cardRotationList.Add(card2, tempQuat);
+
         card3.gameObject.transform.GetLocalPositionAndRotation(out tempPosition, out tempQuat);
-        cardTransform.Add(card3, tempPosition);
-        
+        cardPositionList.Add(card3, tempPosition);
+        cardRotationList.Add(card3, tempQuat);
+
         card4.gameObject.transform.GetLocalPositionAndRotation(out tempPosition, out tempQuat);
-        cardTransform.Add(card4, tempPosition);
-        
+        cardPositionList.Add(card4, tempPosition);
+        cardRotationList.Add(card4, tempQuat);
+
         card4.gameObject.transform.GetLocalPositionAndRotation(out tempPosition, out tempQuat);
-        cardTransform.Add(card5, tempPosition);
+        cardPositionList.Add(card5, tempPosition);
+        cardRotationList.Add(card5, tempQuat);
 
         gameObject.SetActive(false);
 
@@ -79,23 +87,41 @@ public class Poker : Gesture
             if (cardIndex == 0) return;
 
             card[cardIndex].gameObject.transform.SetLocalPositionAndRotation(
-                cardTransform[card[cardIndex]],
-                card[cardIndex].gameObject.transform.localRotation);
+                cardPositionList[card[cardIndex]],
+                cardRotationList[card[cardIndex]]);
 
-            cardIndex++;
+            cardIndex--;
             card[cardIndex].gameObject.transform.SetLocalPositionAndRotation(cardPosition, cardRotation);
         }
         else
         {
             Debug.Log(cardIndex);
-            if (cardIndex >= 4) return;
+            if (cardIndex >= cardNum) return;
 
             card[cardIndex].gameObject.transform.SetLocalPositionAndRotation(
-                cardTransform[card[cardIndex]],
-                card[cardIndex].gameObject.transform.localRotation);
+                cardPositionList[card[cardIndex]],
+                cardRotationList[card[cardIndex]]);
 
             cardIndex++;
             card[cardIndex].gameObject.transform.SetLocalPositionAndRotation(cardPosition, cardRotation);
         }
+    }
+
+    public IEnumerator Throw()
+    {
+        GameObject cardTemp = card[cardIndex];
+        cardPositionList.Remove(card[cardIndex]);
+        cardRotationList.Remove(card[cardIndex]);
+
+        card.Remove(card[cardIndex]);
+        cardNum--;
+
+        cardTemp.transform.Translate(Vector3.forward * 0.06f);
+        yield return new WaitForSeconds(1.0f);
+        Destroy(cardTemp);
+
+        if (cardIndex >= cardNum) cardIndex--;
+        card[cardIndex].gameObject.transform.SetLocalPositionAndRotation(cardPosition, cardRotation);
+        yield return null;
     }
 }

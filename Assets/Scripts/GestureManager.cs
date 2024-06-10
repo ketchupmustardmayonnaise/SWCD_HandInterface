@@ -90,6 +90,7 @@ public class GestureManager : MonoBehaviour
     {
         if (currentGesture == bow) bow.Fire();
         if (currentGesture == aiming) aiming.Fire();
+        if (currentGesture == bomb) bomb.Throw();
     }
 
     public void SerialXY(int x, int y)
@@ -117,6 +118,10 @@ public class GestureManager : MonoBehaviour
             {
                 bomb.setBombTime(true);
                 serialGestureTime = 0;
+            }
+            if (currentGesture == poker)
+            {
+                StartCoroutine(poker.Throw());
             }
         }
         else if (ges == 2) // DOWN

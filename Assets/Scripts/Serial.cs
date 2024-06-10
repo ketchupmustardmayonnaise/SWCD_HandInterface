@@ -16,6 +16,7 @@ public class Serial : MonoBehaviour
     SerialPort sp;
 
     bool isTouching = false;
+    bool isTouchingPrev = false;
 
     int gesture;
     int eventFlag;
@@ -24,11 +25,14 @@ public class Serial : MonoBehaviour
     int x;
     int y;
 
+    int count = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         Serial_Go(port, baud);
 
+        isTouchingPrev = false;
         previousEventFlag = 0;
         eventFlag = 0;
         gesture = 0;
@@ -53,6 +57,7 @@ public class Serial : MonoBehaviour
             if (bytes >= 1)
             {
                 isTouching = true;
+                count = 0;
 
                 byte[] buffer = new byte[bytes];
                 sp.Read(buffer, 0, bytes);
@@ -110,12 +115,17 @@ public class Serial : MonoBehaviour
                             }*/
                         }
 
-                        //Debug.Log(datas[2] + "," + datas[3]);
+                        //Debug.Log(datas[0] + "," + datas[1] + "," + datas[2] + "," + datas[3]);
 
                         aiming.SetPoint(datas[2], datas[3]);
                         datas.Free();
                     }
                 }
+            }
+            else
+            {
+                count++;
+                if (count >= 10) isTouching = false;
             }
         }
         catch (Exception e)
@@ -123,15 +133,26 @@ public class Serial : MonoBehaviour
             //Debug.Log(e.Message);
         }
 
-        // 터치 뗌
-        if (eventFlag == 1 && eventFlag != previousEventFlag)
+        isTouchingPrev = isTouching;
+
+        // 터치 떼는 순간 감지
+        if ((eventFlag == 1 && eventFlag != previousEventFlag))
         {
-            gesManager.SerialTouchRelease();
             isTouching = false;
+        }
+
+        if (!isTouching)
+        {
             eventFlag = 0;
             previousEventFlag = 0;
             gesture = 0;
             x = 0; y = 0;
+        }
+
+        // 터치 떼는 순간
+        if (isTouchingPrev == true && isTouching == false)
+        {
+            gesManager.SerialTouchRelease();
         }
 
         //Debug.Log((isTouching ? "True, " : "False, ") + eventFlag + ", " + gesture + ", " + x + ", " + y);

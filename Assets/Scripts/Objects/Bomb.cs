@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Bomb : Gesture
@@ -49,16 +50,15 @@ public class Bomb : Gesture
 
     public void Throw()
     {
-        if (gameObject.activeSelf == true)
+        Debug.Log("던지기 활성화");
+        if (isJumpReady)
         {
-            if (hand.GetVelocity().magnitude > velocityThreshold)
-            {
-                Instantiate(bombInst, gameObject.transform);
-
-                bombInst.GetComponent<Rigidbody>().useGravity = true;
-                bombInst.GetComponent<Rigidbody>().isKinematic = true;
-                bombInst.GetComponent<Rigidbody>().AddForce(hand.GetVelocity());
-            }
+            Debug.Log("isJumpReady");
+            gameObject.AddComponent<Rigidbody>();
+            gameObject.GetComponent<Rigidbody>().useGravity = true;
+            gameObject.GetComponent<Rigidbody>().isKinematic = true;
+            gameObject.GetComponent<Rigidbody>().velocity = player.transform.forward * 3f + Vector3.up * jumpPower;
+            jumpPower = 0;
         }
     }
 
