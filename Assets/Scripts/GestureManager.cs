@@ -17,9 +17,6 @@ public class GestureManager : MonoBehaviour
     Bomb bomb;
 
     [SerializeField]
-    Hammer hammer;
-
-    [SerializeField]
     Gesture idle;
 
     [SerializeField]
@@ -30,6 +27,9 @@ public class GestureManager : MonoBehaviour
 
     [SerializeField]
     Aiming aiming;
+
+    [SerializeField]
+    Padlock padlock;
 
     public bool isTouching = false;
 
@@ -123,6 +123,10 @@ public class GestureManager : MonoBehaviour
             {
                 StartCoroutine(poker.Throw());
             }
+            if (currentGesture == padlock)
+            {
+                padlock.Lock();
+            }
         }
         else if (ges == 2) // DOWN
         {
@@ -130,6 +134,10 @@ public class GestureManager : MonoBehaviour
             {
                 bomb.setBombTime(false);
                 serialGestureTime = 0;
+            }
+            if (currentGesture == padlock)
+            {
+                padlock.Unlock();
             }
         }
         else if (ges == 3) // LEFT
