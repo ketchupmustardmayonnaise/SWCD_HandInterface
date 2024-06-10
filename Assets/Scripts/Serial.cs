@@ -90,7 +90,6 @@ public class Serial : MonoBehaviour
                             {
                                 if (datas[i] != 0 && gesture == 0)
                                 {
-                                    Debug.Log("시리얼 제스처");
                                     gesture = datas[i];
                                     gesManager.SerialGesture(gesture);
                                 }

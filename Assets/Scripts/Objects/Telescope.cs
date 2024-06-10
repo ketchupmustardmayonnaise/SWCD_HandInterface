@@ -5,6 +5,7 @@ using UnityEngine;
 public class Telescope : Gesture
 {
     [SerializeField] Player player;
+    [SerializeField] OVRCameraRig camera;
 
     // Start is called before the first frame update
     void Start()

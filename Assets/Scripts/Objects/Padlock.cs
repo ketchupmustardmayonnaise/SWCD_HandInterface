@@ -20,13 +20,11 @@ public class Padlock : Gesture
 
     public void Lock()
     {
-        Debug.Log("Lock");
         upperPart.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     public void Unlock()
     {
-        Debug.Log("Unlock");
         upperPart.transform.localRotation = Quaternion.Euler(0, 180, 0);
     }
 }
