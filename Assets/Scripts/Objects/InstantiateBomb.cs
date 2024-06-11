@@ -25,6 +25,7 @@ public class InstantiateBomb : MonoBehaviour
 
     public void Burst()
     {
+        // 아 이게 먼저 setactive 꺼서 폭발이 안 됐던 거구나
         if (gameObject.activeSelf == true)
         {
             gameObject.SetActive(false);
@@ -34,6 +35,6 @@ public class InstantiateBomb : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "floor") Burst();
+        if (collision.collider.CompareTag("floor")) Burst();
     }
 }

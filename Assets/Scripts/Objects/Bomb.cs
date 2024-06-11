@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using static OVRPlugin;
+using UnityEngine.UIElements;
 
 public class Bomb : Gesture
 {
@@ -54,11 +56,17 @@ public class Bomb : Gesture
         if (isJumpReady)
         {
             Debug.Log("isJumpReady");
-            gameObject.AddComponent<Rigidbody>();
-            gameObject.GetComponent<Rigidbody>().useGravity = true;
-            gameObject.GetComponent<Rigidbody>().isKinematic = true;
-            gameObject.GetComponent<Rigidbody>().velocity = player.transform.forward * 3f + Vector3.up * jumpPower;
-            jumpPower = 0;
+            InstantiateBomb bombtemp = Instantiate(bombInst, gameObject.transform.position, gameObject.transform.rotation);
+            bombtemp.gameObject.GetComponent<Rigidbody>().velocity = player.transform.forward * 3f + Vector3.up * jumpPower;
+            
+            List<Vector3> vectorlist = new List<Vector3>();
+            for (int i = 0; i < 60; i++)
+            {
+                Vector3 tempVec = new Vector3(0, 0, 0);
+                vectorlist.Add(tempVec);
+            }
+            lineRenderer.SetPositions(vectorlist.ToArray());
+            isJumpReady = false;
         }
     }
 
@@ -88,8 +96,6 @@ public class Bomb : Gesture
             position += velocity * deltaTime + 0.5f * gravity * deltaTime * deltaTime;
             velocity += gravity * deltaTime;
             vectorlist.Add(position);
-
-            //print(position);
         }
         lineRenderer.SetPositions(vectorlist.ToArray());
     }
