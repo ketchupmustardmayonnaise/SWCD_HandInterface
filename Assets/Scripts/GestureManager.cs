@@ -127,6 +127,10 @@ public class GestureManager : MonoBehaviour
             {
                 padlock.Lock();
             }
+            if (currentGesture == telescope)
+            {
+                telescope.Zoom(false);
+            }
         }
         else if (ges == 2) // DOWN
         {
@@ -138,6 +142,10 @@ public class GestureManager : MonoBehaviour
             if (currentGesture == padlock)
             {
                 padlock.Unlock();
+            }
+            if (currentGesture == telescope)
+            {
+                telescope.Zoom(true);
             }
         }
         else if (ges == 3) // LEFT

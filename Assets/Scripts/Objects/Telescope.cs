@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Telescope : Gesture
 {
-    [SerializeField] Player player;
-    [SerializeField] OVRCameraRig camera;
+    List<int> scale = new List<int>() { 1, 3, 6 };
+    int index;
+
+    [SerializeField] Camera cam;
 
     // Start is called before the first frame update
     void Start()
     {
+        index = 2;
         gameObject.SetActive(false);
     }
 
@@ -19,9 +22,10 @@ public class Telescope : Gesture
         
     }
 
-    void CameraMove(bool isUp)
+    public void Zoom(bool Zoomin)
     {
-        player.isTransformed = true;
-        // 다시 여기 코딩
+        if (Zoomin && index > 0) index--;
+        else if (!Zoomin && index < 2) index++;
+        cam.fieldOfView = scale[index];
     }
 }
