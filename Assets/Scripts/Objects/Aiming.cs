@@ -34,8 +34,16 @@ public class Aiming : Gesture
     {
         if (gameObject.activeSelf)
         {
-            x = _x;
-            y = _y;
+            if (_x != 0 && _y != 0)
+            {
+                x = _x;
+                y = _y;
+            }
+            else
+            {
+                x = 120;
+                y = 120;
+            }
         }
     }
 

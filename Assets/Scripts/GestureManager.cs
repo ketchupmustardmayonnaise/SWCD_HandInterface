@@ -45,12 +45,17 @@ public class GestureManager : MonoBehaviour
 
     float serialGestureTime;
 
+    int x; int y;
+    int init_x; int init_y;
+
 
     // Start is called before the first frame update
     void Start()
     {
         currentGesture = idle;
         serialGestureTime = 0;
+        x = 0; y = 0;
+        init_x = 0; init_y = 0;
     }
 
     public void SetCurrentGesture(Gesture ges)
@@ -61,10 +66,9 @@ public class GestureManager : MonoBehaviour
         {
             currentGesture = ges;
             EnableGesture(ges, true);
+            if (ges == joystick) joystick.SetInitRotate();
         }
 
-        // 두 손 제스처
-        // 
 
         // 취한 제스처가 idle일 때 -> 모두 비활성화
         if (ges == idle)
@@ -88,25 +92,41 @@ public class GestureManager : MonoBehaviour
 
     public void SerialTouchRelease()
     {
-        if (currentGesture == bow) bow.Fire();
-        if (currentGesture == aiming) aiming.Fire();
-        if (currentGesture == bomb) bomb.Throw();
+        if (isTouching)
+        {
+            if (currentGesture == bow) bow.Fire();
+            if (currentGesture == aiming) aiming.Fire();
+            if (currentGesture == bomb) bomb.Throw();
+            init_x = 0; init_y = 0;
+            isTouching = false;
+        }
     }
 
-    public void SerialXY(int x, int y)
+    public void SerialXY(int _x, int _y)
     {
-        if (currentGesture == aiming) aiming.SetPoint(x, y);
+        x = _x; y = _y;
+        if (currentGesture == aiming) aiming.SetPoint(_x, _y);
+        //Debug.Log(isTouching + "," + (init_x - x));
+        if (currentGesture == gun)
+        {
+            if ((init_x - x) > 100 && isTouching)
+            {
+                StartCoroutine(gun.ReloadOne());
+                isTouching = false;
+            }
+        }
+    }
+
+    public void SerialXYInit(int _x, int _y)
+    {
+        isTouching = true;
+        init_x = _x; init_y = _y;
     }
 
     public void SerialGesture(int ges)
     {
         if (ges == 170) // PALM
         {
-            if (currentGesture == gun)
-            {
-                StartCoroutine(gun.Reload());
-            }
-
             if (currentGesture == bomb)
             {
                 bomb.isJumpReady = true;
@@ -164,6 +184,13 @@ public class GestureManager : MonoBehaviour
             if (currentGesture == poker)
             {
                 poker.Select(false);
+            }
+        }
+        else if (ges == 12)
+        {
+            if (currentGesture == gun)
+            {
+                StartCoroutine(gun.Reload());
             }
         }
     }

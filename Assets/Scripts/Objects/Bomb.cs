@@ -15,9 +15,6 @@ public class Bomb : Gesture
     InstantiateBomb bombInst;
 
     [SerializeField]
-    float velocityThreshold = 1.0f;
-
-    [SerializeField]
     float bombTime = 5.0f;
 
     [SerializeField]
@@ -52,11 +49,10 @@ public class Bomb : Gesture
 
     public void Throw()
     {
-        Debug.Log("던지기 활성화");
         if (isJumpReady)
         {
-            Debug.Log("isJumpReady");
             InstantiateBomb bombtemp = Instantiate(bombInst, gameObject.transform.position, gameObject.transform.rotation);
+            bombtemp.SetBombTime(bombTime);
             bombtemp.gameObject.GetComponent<Rigidbody>().velocity = player.transform.forward * 3f + Vector3.up * jumpPower;
             
             List<Vector3> vectorlist = new List<Vector3>();

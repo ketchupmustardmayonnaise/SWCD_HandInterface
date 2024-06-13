@@ -13,6 +13,8 @@ public class Serial : MonoBehaviour
     [SerializeField] int baud = 300;
     [SerializeField] int dataNum = 4;
 
+    [SerializeField] bool isDebugging = false;
+
     SerialPort sp;
 
     bool isTouching = false;
@@ -22,6 +24,8 @@ public class Serial : MonoBehaviour
     int eventFlag;
     int previousEventFlag;
 
+
+    int init_x; int init_y;
     int x;
     int y;
 
@@ -50,12 +54,14 @@ public class Serial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isTouchingPrev = isTouching;
         try
         {
             int bytes = sp.BytesToRead;
 
             if (bytes >= 1)
             {
+                isTouchingPrev = isTouching;
                 isTouching = true;
                 count = 0;
 
@@ -96,23 +102,6 @@ public class Serial : MonoBehaviour
                             }
                             else if (i == 2) x = datas[i];
                             else if (i == 3) y = datas[i];
-
-                            /*// 제스처 인식
-                            if (i == 0)
-                            {
-                                // 직전 제스처랑 지금 제스처랑 다른지 확인
-                                if (gesture != datas[i]) gesManager.SerialGesture(datas[i]);
-
-                                // 아무런 제스처도 인식하지 못한 상태라면
-                                if (gesture == 0 || gesture == -1)
-                                {
-                                    gesture = datas[i];
-                                }
-                            }
-                            else if (i == 1) // touchNum 인식
-                            {
-                                touchNum = datas[i];
-                            }*/
                         }
 
                         //Debug.Log(datas[0] + "," + datas[1] + "," + datas[2] + "," + datas[3]);
@@ -133,11 +122,11 @@ public class Serial : MonoBehaviour
             //Debug.Log(e.Message);
         }
 
-        isTouchingPrev = isTouching;
+        //isTouchingPrev = isTouching;
 
         // 터치 떼는 순간 감지
         if ((eventFlag == 1 && eventFlag != previousEventFlag))
-        {
+        { 
             isTouching = false;
         }
 
@@ -149,13 +138,19 @@ public class Serial : MonoBehaviour
             x = 0; y = 0;
         }
 
+        // 터치 누르기 시작하는 순간
+        if (isTouchingPrev == false && isTouching == true)
+        {
+            gesManager.SerialXYInit(x, y);
+        }
+
         // 터치 떼는 순간
         if (isTouchingPrev == true && isTouching == false)
         {
             gesManager.SerialTouchRelease();
         }
 
-        //Debug.Log((isTouching ? "True, " : "False, ") + eventFlag + ", " + gesture + ", " + x + ", " + y);
+        if(isDebugging)  Debug.Log((isTouching ? "True, " : "False, ") + eventFlag + ", " + gesture + ", " + x + ", " + y);
 
         // X, Y 값을 GestureManager에게 넘겨 줌
         gesManager.SerialXY(x, y);

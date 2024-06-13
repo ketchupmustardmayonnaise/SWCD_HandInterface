@@ -11,9 +11,9 @@ public class Joystick : Gesture
     float threshold;
 
     [SerializeField]
-    Player player;
+    GameObject player;
 
-    Vector3 initRotate;
+    Quaternion initRotate;
     public bool isActivate;
 
     // Start is called before the first frame update
@@ -26,7 +26,7 @@ public class Joystick : Gesture
 
     public void SetInitRotate()
     {
-        initRotate = gameObject.transform.rotation.ToEulerAngles();
+        initRotate = gameObject.transform.rotation;
         isActivate = true;
     }
 
@@ -34,12 +34,15 @@ public class Joystick : Gesture
     // Update is called once per frame
     void Update()
     {
-        if (isActivate)
+        if (isActivate && gameObject.activeSelf)
         {
-            Vector3 rotate = gameObject.transform.rotation.ToEulerAngles();
-            Vector3 diffRotate = rotate - initRotate;
+            Quaternion rotate = gameObject.transform.rotation;
 
-            float x = 0f;
+            Quaternion forwardVec = Quaternion.Euler(player.transform.forward);
+            //Quaternion diff = Quaternion.Angle(rotate, initRotate);
+
+            //Debug.Log(diff);
+            /*float x = 0f;
             float z = 0f;
             if (diffRotate.x < -threshold)
             {
@@ -58,7 +61,7 @@ public class Joystick : Gesture
             {
                 z = 1;
             }
-            player.CalculateMovement(x, z);
+            player.CalculateMovement(x, z);*/
         }
         
     }

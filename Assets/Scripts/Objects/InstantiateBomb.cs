@@ -1,3 +1,4 @@
+using Oculus.Interaction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class InstantiateBomb : MonoBehaviour
     [SerializeField]
     GameObject explosionPosition;
 
+    float bombTime = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,18 +26,22 @@ public class InstantiateBomb : MonoBehaviour
         
     }
 
-    public void Burst()
+    public IEnumerator Burst()
     {
-        // 아 이게 먼저 setactive 꺼서 폭발이 안 됐던 거구나
-        if (gameObject.activeSelf == true)
-        {
-            gameObject.SetActive(false);
-            Instantiate(ParticleFXExplosion, explosionPosition.transform.position, gameObject.transform.rotation);
-        }
+        yield return new WaitForSeconds(bombTime);
+        Instantiate(ParticleFXExplosion, explosionPosition.transform.position, gameObject.transform.rotation);
+        yield return new WaitForSeconds(1.0f);
+        gameObject.SetActive(false);
+        yield return null;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("floor")) Burst();
+        if (collision.gameObject.CompareTag("floor")) StartCoroutine(Burst());
+    }
+
+    public void SetBombTime(float time)
+    { 
+        bombTime = time;
     }
 }

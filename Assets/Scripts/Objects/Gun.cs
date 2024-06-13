@@ -22,6 +22,7 @@ public class Gun : Gesture
     int bulletNum;
 
     bool isReloading = false;
+    bool isReady = false;
 
     // Start is called before the first frame update
     void Start()
@@ -36,24 +37,35 @@ public class Gun : Gesture
         if (gameObject.activeSelf == true && !isReloading)
         {
             // 총알이 남아 있는가?
-            if (bulletNum > 0)
+            if (bulletNum > 0 && isReady)
             {
                 Instantiate(Bullet, FirePos.transform.position, FirePos.transform.rotation);
                 bulletNum--;
                 setText();
+                isReady = false;
             }
         }
     }
 
     public IEnumerator Reload()
     {
-        Debug.Log("Reload");
         isReloading = true;
-        text.text = "Reloading...";
+        text.text = "Reloading All...";
         yield return new WaitForSeconds(1.0f);
         bulletNum = bulletMax;
         setText();
         isReloading = false;
+        yield return null;
+    }
+
+    public IEnumerator ReloadOne()
+    {
+        isReloading = true;
+        text.text = "Reloading One...";
+        yield return new WaitForSeconds(1.0f);
+        setText();
+        isReloading = false;
+        isReady = true;
         yield return null;
     }
 
